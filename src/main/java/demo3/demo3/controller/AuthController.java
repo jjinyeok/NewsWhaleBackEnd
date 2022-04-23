@@ -7,6 +7,7 @@ import demo3.demo3.dto.TokenDto;
 import demo3.demo3.entity.User;
 import demo3.demo3.jwt.JwtFilter;
 import demo3.demo3.jwt.TokenProvider;
+import demo3.demo3.repository.UserRepository;
 import demo3.demo3.service.AuthService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -28,10 +30,13 @@ public class AuthController {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final AuthService authService;
 
-    public AuthController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder, AuthService authService) {
+    private final UserRepository userRepository;
+
+    public AuthController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder, AuthService authService, UserRepository userRepository) {
         this.tokenProvider = tokenProvider;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.authService = authService;
+        this.userRepository = userRepository;
     }
 
     // Security 연습 예제 basic: 401 Unauthorized
@@ -50,6 +55,9 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<TokenDto> signIn(@Valid @RequestBody SignInDto signInDto) {
 
+        Optional<User> user = userRepository.findByUsername(signInDto.getUsername());
+        Long userId = user.get().getUserId();
+
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(signInDto.getUsername(), signInDto.getPassword());
 
@@ -65,7 +73,7 @@ public class AuthController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
-        return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(new TokenDto(userId, jwt), httpHeaders, HttpStatus.OK);
     }
 
     // 아이디 중복 확인 컨트롤러

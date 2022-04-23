@@ -1,5 +1,7 @@
 package demo3.demo3;
 
+import demo3.demo3.entity.User;
+import demo3.demo3.entity.UserKeyword;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
