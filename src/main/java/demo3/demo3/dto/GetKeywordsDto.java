@@ -4,14 +4,14 @@ import lombok.*;
 
 import java.util.List;
 
-// User가 등록한 키워드 보여주기
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class KeywordsDto {
+public class GetKeywordsDto {
 
-    private Long total;
-    private List<String> aaa;
+    private Long count;
+    private List<String> keywordName;
+
 }

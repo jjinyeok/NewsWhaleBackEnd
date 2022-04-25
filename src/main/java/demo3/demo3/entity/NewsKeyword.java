@@ -5,25 +5,25 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user_keyword")
+@Table(name = "news_keyword")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserKeyword {
+public class NewsKeyword {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_keyword_id")
-    private Long userKeywordId;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "news_keyword_id")
+    private long id;
 
     @ManyToOne
     @JoinColumn(name = "keyword_id")
     private Keyword keyword;
+
+    @ManyToOne
+    @JoinColumn(name = "news_id")
+    private News news;
 
 }

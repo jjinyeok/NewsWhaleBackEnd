@@ -24,4 +24,8 @@ public class Keyword {
 
     @OneToMany(mappedBy = "keyword")
     List<UserKeyword> userKeywords = new ArrayList<UserKeyword>();
+
+    @OneToMany(mappedBy = "keyword")
+    List<NewsKeyword> newsKeywords = new ArrayList<NewsKeyword>();
+
 }
