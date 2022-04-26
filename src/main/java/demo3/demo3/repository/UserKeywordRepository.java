@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface UserKeywordRepository extends JpaRepository<UserKeyword, Long> {
 
-    List<UserKeyword> findAllByUser(Optional<User> user);
+    List<UserKeyword> findAllByUser(User user);
 
-    UserKeyword findByUserAndKeyword(User user, Keyword keyword);
+    Optional<UserKeyword> findByUserAndKeyword(User user, Keyword keyword);
 }

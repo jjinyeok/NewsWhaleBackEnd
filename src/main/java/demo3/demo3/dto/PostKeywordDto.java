@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostKeywordsDto {
+public class PostKeywordDto {
 
     private Long userId;
     private String keywordName;

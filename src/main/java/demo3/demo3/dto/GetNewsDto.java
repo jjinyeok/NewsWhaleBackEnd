@@ -1,17 +1,18 @@
 package demo3.demo3.dto;
 
+import demo3.demo3.entity.News;
 import lombok.*;
 
 import java.util.List;
 
-// User가 등록한 키워드 보여주기
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class KeywordsDto {
+public class GetNewsDto {
 
-    private Long total;
-    private List<String> aaa;
+    private Long count;
+    private List<ResponseNews> newsList;
+
 }

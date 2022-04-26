@@ -10,5 +10,5 @@ import lombok.*;
 public class DeleteKeywordDto {
 
     private Long userId;
-    private String keywordDto;
+    private String keywordName;
 }
