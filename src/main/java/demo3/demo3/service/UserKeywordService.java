@@ -87,14 +87,21 @@ public class UserKeywordService {
             keyword = optionalKeyword.get();
         }
 
-        // 3. userId와 keywordName 기반으로 userKeyword 엔티티 생성
-        UserKeyword userKeyword = UserKeyword.builder()
-                .user(user)
-                .keyword(keyword)
-                .build();
+        // 3. UserKeyword 중복 확인
+        Optional<UserKeyword> optionalUserKeyword = userKeywordRepository.findByUserAndKeyword(user, keyword);
+        if(optionalUserKeyword.isEmpty()) {
+            // 3-1. userId와 keywordName 기반으로 userKeyword 엔티티 생성
+            UserKeyword userKeyword = UserKeyword.builder()
+                    .user(user)
+                    .keyword(keyword)
+                    .build();
 
-        // 4. UserKeywordRepository에 save
-        userKeywordRepository.save(userKeyword);
+            // 3-2. UserKeywordRepository에 save
+            userKeywordRepository.save(userKeyword);
+            postKeywordsDto.setSuccess(true);
+        } else {
+            postKeywordsDto.setSuccess(false);
+        }
 
         return postKeywordsDto;
     }

@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 public class ResponseNews {
 
+    private Long newsId;
     private String newsTitle;
     private String newsReporter;
     private String newsMedia;
