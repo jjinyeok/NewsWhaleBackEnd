@@ -4,18 +4,18 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "news_keyword")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class NewsKeyword {
+@Entity
+@Table(name = "article_keyword")
+public class ArticleKeyword {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "news_keyword_id")
+    @Column(name = "article_keyword_id")
     private long id;
 
     @ManyToOne
@@ -23,7 +23,7 @@ public class NewsKeyword {
     private Keyword keyword;
 
     @ManyToOne
-    @JoinColumn(name = "news_id")
-    private News news;
+    @JoinColumn(name = "article_id")
+    private Article article;
 
 }

@@ -4,13 +4,13 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "user_keyword")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "user_keyword")
 public class UserKeyword {
 
     @Id

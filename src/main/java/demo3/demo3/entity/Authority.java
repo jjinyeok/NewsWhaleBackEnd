@@ -7,13 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "authority")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "authority")
 public class Authority {
 
     @Id

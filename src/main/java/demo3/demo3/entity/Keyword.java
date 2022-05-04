@@ -11,6 +11,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "keyword")
 @Entity
 public class Keyword {
 
@@ -26,6 +27,6 @@ public class Keyword {
     List<UserKeyword> userKeywords = new ArrayList<UserKeyword>();
 
     @OneToMany(mappedBy = "keyword")
-    List<NewsKeyword> newsKeywords = new ArrayList<NewsKeyword>();
+    List<ArticleKeyword> articleKeywords = new ArrayList<ArticleKeyword>();
 
 }

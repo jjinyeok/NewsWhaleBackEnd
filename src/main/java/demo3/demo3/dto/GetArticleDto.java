@@ -1,6 +1,5 @@
 package demo3.demo3.dto;
 
-import demo3.demo3.entity.News;
 import lombok.*;
 
 import java.util.List;
@@ -10,9 +9,9 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetNewsDto {
+public class GetArticleDto {
 
     private Long count;
-    private List<ResponseNews> newsList;
+    private List<ResponseArticle> articleList;
 
 }

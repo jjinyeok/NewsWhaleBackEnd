@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-@Entity
-@Table(name = "user")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "user")
 public class User {
 
     @JsonIgnore // 데이터를 주고 받을 때, Ignore 되어서 응답값에 보이지 않게 됨

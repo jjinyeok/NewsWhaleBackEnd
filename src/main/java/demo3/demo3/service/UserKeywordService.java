@@ -110,8 +110,8 @@ public class UserKeywordService {
     public DeleteKeywordDto deleteKeyword(String userId, String keywordName) {
 
         // 1. userId로부터 User find, keywordName으로부터 Keyword find
-        Optional<User> optionalUser = userRepository.findById(Long.parseLong(userId));
-        Optional<Keyword> optionalKeyword = keywordRepository.findByKeywordName(keywordName);
+        var optionalUser = userRepository.findById(Long.parseLong(userId));
+        var optionalKeyword = keywordRepository.findByKeywordName(keywordName);
         User user = new User();
         Keyword keyword = new Keyword();
         if(optionalUser.isEmpty()) {
@@ -126,7 +126,7 @@ public class UserKeywordService {
         }
 
         // 2. User와 Keyword로부터 UserKeyword find
-        Optional<UserKeyword> optionalUserKeyword = userKeywordRepository.findByUserAndKeyword(user, keyword);
+        var optionalUserKeyword = userKeywordRepository.findByUserAndKeyword(user, keyword);
         UserKeyword userKeyword = new UserKeyword();
         if(optionalUserKeyword.isEmpty()) {
             throw new RuntimeException("사용자 등록 키워드가 없습니다. 키워드를 삭제할 수 없습니다.");
