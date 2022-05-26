@@ -3,7 +3,7 @@ package demo3.demo3.controller;
 import demo3.demo3.dto.DuplicateCheckDto;
 import demo3.demo3.dto.SignInDto;
 import demo3.demo3.dto.SignUpDto;
-import demo3.demo3.dto.TokenDto;
+import demo3.demo3.dto.UserDto;
 import demo3.demo3.entity.User;
 import demo3.demo3.jwt.JwtFilter;
 import demo3.demo3.jwt.TokenProvider;
@@ -53,7 +53,7 @@ public class AuthController {
 
     // 로그인 컨트롤러
     @PostMapping("/signin")
-    public ResponseEntity<TokenDto> signIn(@Valid @RequestBody SignInDto signInDto) {
+    public ResponseEntity<UserDto> signIn(@Valid @RequestBody SignInDto signInDto) {
 
         Optional<User> user = userRepository.findByUsername(signInDto.getUsername());
         Long userId = user.get().getUserId();
@@ -73,7 +73,12 @@ public class AuthController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
-        return new ResponseEntity<>(new TokenDto(userId, jwt), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(
+                UserDto.builder()
+                        .userId(userId)
+                        .token(jwt)
+                        .build()
+                , httpHeaders, HttpStatus.OK);
     }
 
     // 아이디 중복 확인 컨트롤러

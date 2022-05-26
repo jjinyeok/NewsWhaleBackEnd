@@ -36,6 +36,30 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "politics_score")
+    private Long politicsScore;
+
+    @Column(name = "economy_score")
+    private Long economyScore;
+
+    @Column(name = "society_score")
+    private Long societyScore;
+
+    @Column(name = "culture_score")
+    private Long cultureScore;
+
+    @Column(name = "international_score")
+    private Long internationalScore;
+
+    @Column(name = "local_score")
+    private Long localScore;
+
+    @Column(name = "sports_score")
+    private Long sportsScore;
+
+    @Column(name = "it_science_score")
+    private Long itScienceScore;
+
     @JsonIgnore
     @Column(name = "activated")
     private boolean activated;
@@ -48,7 +72,7 @@ public class User {
     )
     private Set<Authority> authorities;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     List <UserKeyword> userKeywords = new ArrayList<UserKeyword>();
 
 }

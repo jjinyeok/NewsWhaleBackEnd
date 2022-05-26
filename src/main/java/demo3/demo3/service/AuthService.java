@@ -61,6 +61,14 @@ public class AuthService {
                 .email(signUpDto.getEmail())
                 .activated(true)
                 .authorities(Collections.singleton(authority))
+                .politicsScore(0L)
+                .economyScore(0L)
+                .societyScore(0L)
+                .cultureScore(0L)
+                .internationalScore(0L)
+                .localScore(0L)
+                .sportsScore(0L)
+                .itScienceScore(0L)
                 .build();
 
         return userRepository.save(user);

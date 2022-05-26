@@ -21,7 +21,7 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long articleId;
 
-    @Column(name = "article_title")
+    @Column(name = "article_title", unique = true)
     private String articleTitle;
 
     @Column(name = "article_reporter")
@@ -42,7 +42,7 @@ public class Article {
     @Column(name = "article_last_modified_date")
     private Date articleLastModifiedDate;
 
-    @OneToMany(mappedBy = "article")
+    @OneToMany(mappedBy = "article", fetch = FetchType.LAZY)
     List<ArticleKeyword> articleKeywords = new ArrayList<ArticleKeyword>();
 
 }

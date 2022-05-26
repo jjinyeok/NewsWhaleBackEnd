@@ -10,6 +10,7 @@ import demo3.demo3.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -96,6 +97,7 @@ public class ArticleService {
 
                     // 11. return 내부 값 계산
                     responseArticleList.add(responseArticle);
+                    responseArticleList.sort(new ResponseArticleComparator());
                     count++;
                 }
             }
@@ -108,3 +110,4 @@ public class ArticleService {
     }
 
 }
+

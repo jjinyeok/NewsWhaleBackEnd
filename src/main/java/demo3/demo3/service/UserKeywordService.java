@@ -79,12 +79,28 @@ public class UserKeywordService {
         if(optionalKeyword.isEmpty()) {
             keyword = Keyword.builder()
                     .keywordName(postKeywordsDto.getKeywordName())
+                    .politicsCount(0L)
+                    .economyCount(0L)
+                    .societyCount(0L)
+                    .cultureCount(0L)
+                    .internationalCount(0L)
+                    .localCount(0L)
+                    .sportsCount(0L)
+                    .itScienceCount(0L)
                     .build();
             keywordRepository.save(keyword);
         }
         // 2-2. 중복이 되어있다면 기존 키워드 find
         else {
             keyword = optionalKeyword.get();
+            user.setPoliticsScore(user.getPoliticsScore() + keyword.getPoliticsCount());
+            user.setEconomyScore(user.getEconomyScore() + keyword.getEconomyCount());
+            user.setSocietyScore(user.getSocietyScore() + keyword.getSocietyCount());
+            user.setCultureScore(user.getCultureScore() + keyword.getCultureCount());
+            user.setInternationalScore(user.getInternationalScore() + keyword.getInternationalCount());
+            user.setLocalScore(user.getLocalScore() + keyword.getLocalCount());
+            user.setSportsScore(user.getSportsScore() + keyword.getSportsCount());
+            user.setItScienceScore(user.getItScienceScore() + keyword.getItScienceCount());
         }
 
         // 3. UserKeyword 중복 확인

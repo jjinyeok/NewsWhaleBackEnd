@@ -20,13 +20,37 @@ public class Keyword {
     @Column(name = "keyword_id")
     private Long keywordID;
 
-    @Column(name = "keyword_name")
+    @Column(name = "keyword_name", unique = true)
     private String keywordName;
 
-    @OneToMany(mappedBy = "keyword")
+    @Column(name = "politics_count")
+    private Long politicsCount;
+
+    @Column(name = "economy_count")
+    private Long economyCount;
+
+    @Column(name = "society_count")
+    private Long societyCount;
+
+    @Column(name = "culture_count")
+    private Long cultureCount;
+
+    @Column(name = "international_count")
+    private Long internationalCount;
+
+    @Column(name = "local_count")
+    private Long localCount;
+
+    @Column(name = "sports_count")
+    private Long sportsCount;
+
+    @Column(name = "it_science_count")
+    private Long itScienceCount;
+
+    @OneToMany(mappedBy = "keyword", fetch = FetchType.LAZY)
     List<UserKeyword> userKeywords = new ArrayList<UserKeyword>();
 
-    @OneToMany(mappedBy = "keyword")
+    @OneToMany(mappedBy = "keyword", fetch = FetchType.LAZY)
     List<ArticleKeyword> articleKeywords = new ArrayList<ArticleKeyword>();
 
 }
