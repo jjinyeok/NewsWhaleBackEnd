@@ -13,5 +13,6 @@ public class GetArticleDto {
 
     private Long count;
     private List<ResponseArticle> articleList;
+    private List<RecommendArticle> recommendArticleList;
 
 }

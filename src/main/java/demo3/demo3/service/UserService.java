@@ -56,20 +56,150 @@ public class UserService {
         }
         List<UserKeyword> userKeywords = userKeywordRepository.findAllByUser(user);
         TreeMap<Long, String> userTendencyDictionary = new TreeMap<Long, String>();
-        userTendencyDictionary.put(user.getPoliticsScore(), "PoliticsScore");
-        userTendencyDictionary.put(user.getEconomyScore(), "EconomyScore");
-        userTendencyDictionary.put(user.getSocietyScore(), "SocietyScore");
-        userTendencyDictionary.put(user.getCultureScore(), "CultureScore");
-        userTendencyDictionary.put(user.getInternationalScore(), "InternationalScore");
-        userTendencyDictionary.put(user.getLocalScore(), "LocalScore");
-        userTendencyDictionary.put(user.getSportsScore(), "SportsScore");
-        userTendencyDictionary.put(user.getItScienceScore(), "ItScienceScore");
+        userTendencyDictionary.put(user.getPoliticsScore() * (-1), "PoliticsScore");
+        userTendencyDictionary.put(user.getEconomyScore() * (-1), "EconomyScore");
+        userTendencyDictionary.put(user.getSocietyScore() * (-1), "SocietyScore");
+        userTendencyDictionary.put(user.getCultureScore() * (-1), "CultureScore");
+        userTendencyDictionary.put(user.getInternationalScore() * (-1), "InternationalScore");
+        userTendencyDictionary.put(user.getLocalScore() * (-1), "LocalScore");
+        userTendencyDictionary.put(user.getSportsScore() * (-1), "SportsScore");
+        userTendencyDictionary.put(user.getItScienceScore() * (-1), "ItScienceScore");
 
         List<String> keywordNames = new ArrayList<>();
 
         int count = 0;
         for (String value : userTendencyDictionary.values()) {
             if(count == 0) {
+                if(value == "PoliticsScore") {
+                    List<Keyword> top10ByOrderByPoliticsCountDesc = keywordRepository.findTop10ByOrderByPoliticsCountDesc();
+                    for(Keyword keyword : top10ByOrderByPoliticsCountDesc) {
+                        Boolean check = true;
+                        for(UserKeyword userKeyword : userKeywords) {
+                            if(userKeyword.getKeyword() == keyword) {
+                                check = false;
+                                break;
+                            }
+                        }
+                        if(check) {
+                            if(!keywordNames.contains(keyword.getKeywordName())) {
+                                keywordNames.add(keyword.getKeywordName());
+                            }
+                        }
+                    }
+                } else if (value == "EconomyScore") {
+                    List<Keyword> top10ByOrderByEconomyCountDesc = keywordRepository.findTop10ByOrderByEconomyCountDesc();
+                    for(Keyword keyword : top10ByOrderByEconomyCountDesc) {
+                        Boolean check = true;
+                        for(UserKeyword userKeyword : userKeywords) {
+                            if(userKeyword.getKeyword() == keyword) {
+                                check = false;
+                                break;
+                            }
+                        }
+                        if(check) {
+                            if(!keywordNames.contains(keyword.getKeywordName())) {
+                                keywordNames.add(keyword.getKeywordName());
+                            }
+                        }
+                    }
+                } else if (value == "SocietyScore") {
+                    List<Keyword> top10ByOrderBySocietyCountDesc = keywordRepository.findTop10ByOrderBySocietyCountDesc();
+                    for(Keyword keyword : top10ByOrderBySocietyCountDesc) {
+                        Boolean check = true;
+                        for(UserKeyword userKeyword : userKeywords) {
+                            if(userKeyword.getKeyword() == keyword) {
+                                check = false;
+                                break;
+                            }
+                        }
+                        if(check) {
+                            if(!keywordNames.contains(keyword.getKeywordName())) {
+                                keywordNames.add(keyword.getKeywordName());
+                            }
+                        }
+                    }
+                } else if (value == "CultureScore") {
+                    List<Keyword> top10ByOrderByCultureCountDesc = keywordRepository.findTop10ByOrderByCultureCountDesc();
+                    for(Keyword keyword : top10ByOrderByCultureCountDesc) {
+                        Boolean check = true;
+                        for(UserKeyword userKeyword : userKeywords) {
+                            if(userKeyword.getKeyword() == keyword) {
+                                check = false;
+                                break;
+                            }
+                        }
+                        if(check) {
+                            if(!keywordNames.contains(keyword.getKeywordName())) {
+                                keywordNames.add(keyword.getKeywordName());
+                            }
+                        }
+                    }
+                } else if (value == "InternationalScore") {
+                    List<Keyword> top10ByOrderByInternationalCountDesc = keywordRepository.findTop10ByOrderByInternationalCountDesc();
+                    for (Keyword keyword : top10ByOrderByInternationalCountDesc) {
+                        Boolean check = true;
+                        for(UserKeyword userKeyword : userKeywords) {
+                            if(userKeyword.getKeyword() == keyword) {
+                                check = false;
+                                break;
+                            }
+                        }
+                        if(check) {
+                            if(!keywordNames.contains(keyword.getKeywordName())) {
+                                keywordNames.add(keyword.getKeywordName());
+                            }
+                        }
+                    }
+                } else if (value == "LocalScore") {
+                    List<Keyword> top10ByOrderByLocalCountDesc = keywordRepository.findTop10ByOrderByLocalCountDesc();
+                    for (Keyword keyword : top10ByOrderByLocalCountDesc) {
+                        Boolean check = true;
+                        for(UserKeyword userKeyword : userKeywords) {
+                            if(userKeyword.getKeyword() == keyword) {
+                                check = false;
+                                break;
+                            }
+                        }
+                        if(check) {
+                            if(!keywordNames.contains(keyword.getKeywordName())) {
+                                keywordNames.add(keyword.getKeywordName());
+                            }
+                        }
+                    }
+                } else if (value == "SportsScore") {
+                    List<Keyword> top10ByOrderBySportsCountDesc = keywordRepository.findTop10ByOrderBySportsCountDesc();
+                    for (Keyword keyword : top10ByOrderBySportsCountDesc) {
+                        Boolean check = true;
+                        for(UserKeyword userKeyword : userKeywords) {
+                            if(userKeyword.getKeyword() == keyword) {
+                                check = false;
+                                break;
+                            }
+                        }
+                        if(check) {
+                            if(!keywordNames.contains(keyword.getKeywordName())) {
+                                keywordNames.add(keyword.getKeywordName());
+                            }
+                        }
+                    }
+                } else if (value == "ItScienceScore") {
+                    List<Keyword> top10ByOrderByItScienceCountDesc = keywordRepository.findTop10ByOrderByItScienceCountDesc();
+                    for (Keyword keyword : top10ByOrderByItScienceCountDesc) {
+                        Boolean check = true;
+                        for(UserKeyword userKeyword : userKeywords) {
+                            if(userKeyword.getKeyword() == keyword) {
+                                check = false;
+                                break;
+                            }
+                        }
+                        if(check) {
+                            if(!keywordNames.contains(keyword.getKeywordName())) {
+                                keywordNames.add(keyword.getKeywordName());
+                            }
+                        }
+                    }
+                }
+            } else if (count == 1) {
                 if(value == "PoliticsScore") {
                     List<Keyword> top5ByOrderByPoliticsCountDesc = keywordRepository.findTop5ByOrderByPoliticsCountDesc();
                     for(Keyword keyword : top5ByOrderByPoliticsCountDesc) {
@@ -185,136 +315,6 @@ public class UserService {
                 } else if (value == "ItScienceScore") {
                     List<Keyword> top5ByOrderByItScienceCountDesc = keywordRepository.findTop5ByOrderByItScienceCountDesc();
                     for (Keyword keyword : top5ByOrderByItScienceCountDesc) {
-                        Boolean check = true;
-                        for(UserKeyword userKeyword : userKeywords) {
-                            if(userKeyword.getKeyword() == keyword) {
-                                check = false;
-                                break;
-                            }
-                        }
-                        if(check) {
-                            if(!keywordNames.contains(keyword.getKeywordName())) {
-                                keywordNames.add(keyword.getKeywordName());
-                            }
-                        }
-                    }
-                }
-            } else if (count == 1) {
-                if(value == "PoliticsScore") {
-                    List<Keyword> top4ByOrderByPoliticsCountDesc = keywordRepository.findTop4ByOrderByPoliticsCountDesc();
-                    for(Keyword keyword : top4ByOrderByPoliticsCountDesc) {
-                        Boolean check = true;
-                        for(UserKeyword userKeyword : userKeywords) {
-                            if(userKeyword.getKeyword() == keyword) {
-                                check = false;
-                                break;
-                            }
-                        }
-                        if(check) {
-                            if(!keywordNames.contains(keyword.getKeywordName())) {
-                                keywordNames.add(keyword.getKeywordName());
-                            }
-                        }
-                    }
-                } else if (value == "EconomyScore") {
-                    List<Keyword> top4ByOrderByEconomyCountDesc = keywordRepository.findTop4ByOrderByEconomyCountDesc();
-                    for(Keyword keyword : top4ByOrderByEconomyCountDesc) {
-                        Boolean check = true;
-                        for(UserKeyword userKeyword : userKeywords) {
-                            if(userKeyword.getKeyword() == keyword) {
-                                check = false;
-                                break;
-                            }
-                        }
-                        if(check) {
-                            if(!keywordNames.contains(keyword.getKeywordName())) {
-                                keywordNames.add(keyword.getKeywordName());
-                            }
-                        }
-                    }
-                } else if (value == "SocietyScore") {
-                    List<Keyword> top4ByOrderBySocietyCountDesc = keywordRepository.findTop4ByOrderBySocietyCountDesc();
-                    for(Keyword keyword : top4ByOrderBySocietyCountDesc) {
-                        Boolean check = true;
-                        for(UserKeyword userKeyword : userKeywords) {
-                            if(userKeyword.getKeyword() == keyword) {
-                                check = false;
-                                break;
-                            }
-                        }
-                        if(check) {
-                            if(!keywordNames.contains(keyword.getKeywordName())) {
-                                keywordNames.add(keyword.getKeywordName());
-                            }
-                        }
-                    }
-                } else if (value == "CultureScore") {
-                    List<Keyword> top4ByOrderByCultureCountDesc = keywordRepository.findTop4ByOrderByCultureCountDesc();
-                    for(Keyword keyword : top4ByOrderByCultureCountDesc) {
-                        Boolean check = true;
-                        for(UserKeyword userKeyword : userKeywords) {
-                            if(userKeyword.getKeyword() == keyword) {
-                                check = false;
-                                break;
-                            }
-                        }
-                        if(check) {
-                            if(!keywordNames.contains(keyword.getKeywordName())) {
-                                keywordNames.add(keyword.getKeywordName());
-                            }
-                        }
-                    }
-                } else if (value == "InternationalScore") {
-                    List<Keyword> top4ByOrderByInternationalCountDesc = keywordRepository.findTop4ByOrderByInternationalCountDesc();
-                    for (Keyword keyword : top4ByOrderByInternationalCountDesc) {
-                        Boolean check = true;
-                        for(UserKeyword userKeyword : userKeywords) {
-                            if(userKeyword.getKeyword() == keyword) {
-                                check = false;
-                                break;
-                            }
-                        }
-                        if(check) {
-                            if(!keywordNames.contains(keyword.getKeywordName())) {
-                                keywordNames.add(keyword.getKeywordName());
-                            }
-                        }
-                    }
-                } else if (value == "LocalScore") {
-                    List<Keyword> top4ByOrderByLocalCountDesc = keywordRepository.findTop4ByOrderByLocalCountDesc();
-                    for (Keyword keyword : top4ByOrderByLocalCountDesc) {
-                        Boolean check = true;
-                        for(UserKeyword userKeyword : userKeywords) {
-                            if(userKeyword.getKeyword() == keyword) {
-                                check = false;
-                                break;
-                            }
-                        }
-                        if(check) {
-                            if(!keywordNames.contains(keyword.getKeywordName())) {
-                                keywordNames.add(keyword.getKeywordName());
-                            }
-                        }
-                    }
-                } else if (value == "SportsScore") {
-                    List<Keyword> top4ByOrderBySportsCountDesc = keywordRepository.findTop4ByOrderBySportsCountDesc();
-                    for (Keyword keyword : top4ByOrderBySportsCountDesc) {
-                        Boolean check = true;
-                        for(UserKeyword userKeyword : userKeywords) {
-                            if(userKeyword.getKeyword() == keyword) {
-                                check = false;
-                                break;
-                            }
-                        }
-                        if(check) {
-                            if(!keywordNames.contains(keyword.getKeywordName())) {
-                                keywordNames.add(keyword.getKeywordName());
-                            }
-                        }
-                    }
-                } else if (value == "ItScienceScore") {
-                    List<Keyword> top4ByOrderByItScienceCountDesc = keywordRepository.findTop4ByOrderByItScienceCountDesc();
-                    for (Keyword keyword : top4ByOrderByItScienceCountDesc) {
                         Boolean check = true;
                         for(UserKeyword userKeyword : userKeywords) {
                             if(userKeyword.getKeyword() == keyword) {

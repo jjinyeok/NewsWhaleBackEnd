@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface ArticleKeywordRepository extends JpaRepository<ArticleKeyword, Long> {
 
-    List<ArticleKeyword> findAllByKeyword(Keyword keyword);
+    List<ArticleKeyword> findAllByKeywordOrderByIdDesc(Keyword keyword);
 
     List<ArticleKeyword> findAllByArticle(Article article);
 }

@@ -12,6 +12,15 @@ public interface KeywordRepository extends JpaRepository<Keyword, Long> {
 
     Optional<Keyword> findByKeywordName(String keywordName);
 
+    List<Keyword> findTop10ByOrderByPoliticsCountDesc();
+    List<Keyword> findTop10ByOrderByEconomyCountDesc();
+    List<Keyword> findTop10ByOrderBySocietyCountDesc();
+    List<Keyword> findTop10ByOrderByCultureCountDesc();
+    List<Keyword> findTop10ByOrderByInternationalCountDesc();
+    List<Keyword> findTop10ByOrderByLocalCountDesc();
+    List<Keyword> findTop10ByOrderBySportsCountDesc();
+    List<Keyword> findTop10ByOrderByItScienceCountDesc();
+
     List<Keyword> findTop5ByOrderByPoliticsCountDesc();
     List<Keyword> findTop5ByOrderByEconomyCountDesc();
     List<Keyword> findTop5ByOrderBySocietyCountDesc();
@@ -20,15 +29,6 @@ public interface KeywordRepository extends JpaRepository<Keyword, Long> {
     List<Keyword> findTop5ByOrderByLocalCountDesc();
     List<Keyword> findTop5ByOrderBySportsCountDesc();
     List<Keyword> findTop5ByOrderByItScienceCountDesc();
-
-    List<Keyword> findTop4ByOrderByPoliticsCountDesc();
-    List<Keyword> findTop4ByOrderByEconomyCountDesc();
-    List<Keyword> findTop4ByOrderBySocietyCountDesc();
-    List<Keyword> findTop4ByOrderByCultureCountDesc();
-    List<Keyword> findTop4ByOrderByInternationalCountDesc();
-    List<Keyword> findTop4ByOrderByLocalCountDesc();
-    List<Keyword> findTop4ByOrderBySportsCountDesc();
-    List<Keyword> findTop4ByOrderByItScienceCountDesc();
 
     List<Keyword> findTop3ByOrderByPoliticsCountDesc();
     List<Keyword> findTop3ByOrderByEconomyCountDesc();

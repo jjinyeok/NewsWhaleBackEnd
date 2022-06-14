@@ -1,6 +1,7 @@
 package demo3.demo3.service;
 
 import demo3.demo3.dto.GetArticleDto;
+import demo3.demo3.dto.RecommendArticle;
 import demo3.demo3.dto.ResponseArticle;
 import demo3.demo3.entity.*;
 import demo3.demo3.repository.KeywordRepository;
@@ -9,10 +10,8 @@ import demo3.demo3.repository.UserKeywordRepository;
 import demo3.demo3.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.security.Key;
+import java.util.*;
 
 @Service
 public class ArticleService {
@@ -58,10 +57,9 @@ public class ArticleService {
             Keyword keyword = userKeyword.getKeyword();
 
             // 5. Keyword로부터 ArticleKeyword 리스트 find
-            List<ArticleKeyword> articleKeywordsByKeyword = articleKeywordRepository.findAllByKeyword(keyword);
+            List<ArticleKeyword> articleKeywordsByKeyword = articleKeywordRepository.findAllByKeywordOrderByIdDesc(keyword);
 
             // 6. ArticleKeyword 리스트로부터 ArticleKeyword를 하나씩 꺼내,
-            //
             for (ArticleKeyword articleKeyword : articleKeywordsByKeyword) {
 
                 // 7. ArticleKeyword로부터 Article를 get
@@ -99,13 +97,78 @@ public class ArticleService {
                     responseArticleList.add(responseArticle);
                     responseArticleList.sort(new ResponseArticleComparator());
                     count++;
+                    if (count == 301) {
+                        break;
+                    }
                 }
+                if (count == 301) {
+                    break;
+                }
+            }
+        }
+
+        TreeMap<Long, String> userTendencyDictionary = new TreeMap<Long, String>();
+        userTendencyDictionary.put(user.getPoliticsScore() * (-1), "PoliticsScore");
+        userTendencyDictionary.put(user.getEconomyScore() * (-1), "EconomyScore");
+        userTendencyDictionary.put(user.getSocietyScore() * (-1), "SocietyScore");
+        userTendencyDictionary.put(user.getCultureScore() * (-1), "CultureScore");
+        userTendencyDictionary.put(user.getInternationalScore() * (-1), "InternationalScore");
+        userTendencyDictionary.put(user.getLocalScore() * (-1), "LocalScore");
+        userTendencyDictionary.put(user.getSportsScore() * (-1), "SportsScore");
+        userTendencyDictionary.put(user.getItScienceScore() * (-1), "ItScienceScore");
+
+        List<Keyword> userTendencyKeywords = new ArrayList<>();
+        if(userTendencyDictionary.firstEntry().getValue() == "PoliticsScore") {
+            userTendencyKeywords = keywordRepository.findTop5ByOrderByPoliticsCountDesc();
+        }
+        else if(userTendencyDictionary.firstEntry().getValue() == "EconomyScore") {
+            userTendencyKeywords = keywordRepository.findTop5ByOrderByEconomyCountDesc();
+        }
+        else if(userTendencyDictionary.firstEntry().getValue() == "SocietyScore") {
+            userTendencyKeywords = keywordRepository.findTop5ByOrderBySocietyCountDesc();
+        }
+        else if(userTendencyDictionary.firstEntry().getValue() == "CultureScore") {
+            userTendencyKeywords = keywordRepository.findTop5ByOrderByCultureCountDesc();
+        }
+        else if(userTendencyDictionary.firstEntry().getValue() == "InternationalScore") {
+            userTendencyKeywords = keywordRepository.findTop5ByOrderByInternationalCountDesc();
+        }
+        else if(userTendencyDictionary.firstEntry().getValue() == "LocalScore") {
+            userTendencyKeywords = keywordRepository.findTop5ByOrderByLocalCountDesc();
+        }
+        else if(userTendencyDictionary.firstEntry().getValue() == "SportsScore") {
+            userTendencyKeywords = keywordRepository.findTop5ByOrderBySportsCountDesc();
+        }
+        else if(userTendencyDictionary.firstEntry().getValue() == "ItScienceScore") {
+            userTendencyKeywords = keywordRepository.findTop5ByOrderByItScienceCountDesc();
+        }
+
+        int recommendNewsCount = 0;
+        List<RecommendArticle> recommendArticleList = new ArrayList<>();
+        for (Keyword userTendencyKeyword : userTendencyKeywords) {
+            List<ArticleKeyword> articleKeywords = articleKeywordRepository.findAllByKeywordOrderByIdDesc(userTendencyKeyword);
+            for (ArticleKeyword articleKeyword : articleKeywords) {
+                RecommendArticle recommendArticle = RecommendArticle.builder()
+                        .articleTitle(articleKeyword.getArticle().getArticleTitle())
+                        .articleUrl(articleKeyword.getArticle().getArticleUrl())
+                        .build();
+                if (!recommendArticleList.contains(recommendArticle)) {
+                    recommendArticleList.add(recommendArticle);
+                    recommendNewsCount += 1;
+                }
+                if(recommendNewsCount == 5){
+                    break;
+                }
+            }
+            if(recommendNewsCount == 5){
+                break;
             }
         }
 
         return GetArticleDto.builder()
                 .count(count)
                 .articleList(responseArticleList)
+                .recommendArticleList(recommendArticleList)
                 .build();
     }
 
