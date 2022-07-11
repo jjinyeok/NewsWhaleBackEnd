@@ -119,28 +119,28 @@ public class ArticleService {
 
         List<Keyword> userTendencyKeywords = new ArrayList<>();
         if(userTendencyDictionary.firstEntry().getValue() == "PoliticsScore") {
-            userTendencyKeywords = keywordRepository.findTop5ByOrderByPoliticsCountDesc();
+            userTendencyKeywords = keywordRepository.findTop10ByOrderByPoliticsCountDesc();
         }
         else if(userTendencyDictionary.firstEntry().getValue() == "EconomyScore") {
-            userTendencyKeywords = keywordRepository.findTop5ByOrderByEconomyCountDesc();
+            userTendencyKeywords = keywordRepository.findTop10ByOrderByEconomyCountDesc();
         }
         else if(userTendencyDictionary.firstEntry().getValue() == "SocietyScore") {
-            userTendencyKeywords = keywordRepository.findTop5ByOrderBySocietyCountDesc();
+            userTendencyKeywords = keywordRepository.findTop10ByOrderBySocietyCountDesc();
         }
         else if(userTendencyDictionary.firstEntry().getValue() == "CultureScore") {
-            userTendencyKeywords = keywordRepository.findTop5ByOrderByCultureCountDesc();
+            userTendencyKeywords = keywordRepository.findTop10ByOrderByCultureCountDesc();
         }
         else if(userTendencyDictionary.firstEntry().getValue() == "InternationalScore") {
-            userTendencyKeywords = keywordRepository.findTop5ByOrderByInternationalCountDesc();
+            userTendencyKeywords = keywordRepository.findTop10ByOrderByInternationalCountDesc();
         }
         else if(userTendencyDictionary.firstEntry().getValue() == "LocalScore") {
-            userTendencyKeywords = keywordRepository.findTop5ByOrderByLocalCountDesc();
+            userTendencyKeywords = keywordRepository.findTop10ByOrderByLocalCountDesc();
         }
         else if(userTendencyDictionary.firstEntry().getValue() == "SportsScore") {
-            userTendencyKeywords = keywordRepository.findTop5ByOrderBySportsCountDesc();
+            userTendencyKeywords = keywordRepository.findTop10ByOrderBySportsCountDesc();
         }
         else if(userTendencyDictionary.firstEntry().getValue() == "ItScienceScore") {
-            userTendencyKeywords = keywordRepository.findTop5ByOrderByItScienceCountDesc();
+            userTendencyKeywords = keywordRepository.findTop10ByOrderByItScienceCountDesc();
         }
 
         int recommendNewsCount = 0;

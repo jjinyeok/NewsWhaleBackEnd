@@ -4,6 +4,7 @@ import demo3.demo3.entity.User;
 import demo3.demo3.entity.UserKeyword;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @SpringBootApplication
 public class Demo3Application {
