@@ -1,18 +1,18 @@
-package demo3.demo3.controller;
+/*
+package hongik.newswhale.ui.controller;
 
-import demo3.demo3.dto.DuplicateCheckDto;
-import demo3.demo3.dto.SignInDto;
-import demo3.demo3.dto.SignUpDto;
-import demo3.demo3.dto.UserDto;
-import demo3.demo3.entity.User;
-import demo3.demo3.jwt.JwtFilter;
-import demo3.demo3.jwt.TokenProvider;
-import demo3.demo3.repository.UserRepository;
-import demo3.demo3.service.AuthService;
+import hongik.newswhale.dto.DuplicateCheckDto;
+import hongik.newswhale.dto.SignInDto;
+import hongik.newswhale.dto.SignUpDto;
+import hongik.newswhale.dto.UserDto;
+import hongik.newswhale.infrastructure.persistance.jpa.entity.UserEntity;
+import hongik.newswhale.security.jwt.JwtFilter;
+import hongik.newswhale.security.jwt.TokenProvider;
+import hongik.newswhale.infrastructure.persistance.jpa.repository.UserRepository;
+import hongik.newswhale.application.service.AuthService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -47,7 +47,7 @@ public class AuthController {
 
     // 회원가입 컨트롤러
     @PostMapping("/signup")
-    public ResponseEntity<User> signUp(@Valid @RequestBody SignUpDto signUpDto) {
+    public ResponseEntity<UserEntity> signUp(@Valid @RequestBody SignUpDto signUpDto) {
         return ResponseEntity.ok(authService.signUp(signUpDto));
     }
 
@@ -55,7 +55,7 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<UserDto> signIn(@Valid @RequestBody SignInDto signInDto) {
 
-        Optional<User> user = userRepository.findByUsername(signInDto.getUsername());
+        Optional<UserEntity> user = userRepository.findByUsername(signInDto.getUsername());
         Long userId = user.get().getUserId();
 
         UsernamePasswordAuthenticationToken authenticationToken =
@@ -88,3 +88,4 @@ public class AuthController {
         return ResponseEntity.ok(authService.duplicateCheck(duplicateCheckDto));
     }
 }
+*/

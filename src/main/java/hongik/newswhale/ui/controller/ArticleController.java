@@ -1,7 +1,8 @@
-package demo3.demo3.controller;
+/*
+package hongik.newswhale.ui.controller;
 
-import demo3.demo3.dto.GetArticleDto;
-import demo3.demo3.service.ArticleService;
+import hongik.newswhale.dto.GetArticleDto;
+import hongik.newswhale.application.service.ArticleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,3 +25,4 @@ public class ArticleController {
         return ResponseEntity.ok(articleService.getArticle(userId));
     }
 }
+*/

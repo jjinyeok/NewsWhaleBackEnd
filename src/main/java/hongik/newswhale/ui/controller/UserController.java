@@ -1,10 +1,9 @@
-package demo3.demo3.controller;
+/*
+package hongik.newswhale.ui.controller;
 
-import demo3.demo3.dto.GetUserRecommendKeywordDto;
-import demo3.demo3.dto.GetUserTendencyDto;
-import demo3.demo3.repository.UserRepository;
-import demo3.demo3.service.UserService;
-import org.springframework.data.repository.query.Param;
+import hongik.newswhale.dto.GetUserRecommendKeywordDto;
+import hongik.newswhale.dto.GetUserTendencyDto;
+import hongik.newswhale.application.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,3 +30,4 @@ public class UserController {
     }
 
 }
+*/

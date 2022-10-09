@@ -1,9 +1,10 @@
-package demo3.demo3.controller;
+/*
+package hongik.newswhale.ui.controller;
 
-import demo3.demo3.dto.DeleteKeywordDto;
-import demo3.demo3.dto.GetKeywordsDto;
-import demo3.demo3.dto.PostKeywordDto;
-import demo3.demo3.service.UserKeywordService;
+import hongik.newswhale.dto.DeleteKeywordDto;
+import hongik.newswhale.dto.GetKeywordsDto;
+import hongik.newswhale.dto.PostKeywordDto;
+import hongik.newswhale.application.service.UserKeywordService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,3 +45,4 @@ public class UserKeywordController {
         return ResponseEntity.ok(userKeywordService.deleteKeyword(userId, keywordName));
     }
 }
+*/

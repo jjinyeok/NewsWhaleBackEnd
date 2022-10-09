@@ -1,14 +1,15 @@
-package demo3.demo3.service;
+/*
+package hongik.newswhale.application.service;
 
-import demo3.demo3.dto.DeleteKeywordDto;
-import demo3.demo3.dto.GetKeywordsDto;
-import demo3.demo3.dto.PostKeywordDto;
-import demo3.demo3.entity.Keyword;
-import demo3.demo3.entity.User;
-import demo3.demo3.entity.UserKeyword;
-import demo3.demo3.repository.KeywordRepository;
-import demo3.demo3.repository.UserKeywordRepository;
-import demo3.demo3.repository.UserRepository;
+import hongik.newswhale.dto.DeleteKeywordDto;
+import hongik.newswhale.dto.GetKeywordsDto;
+import hongik.newswhale.dto.PostKeywordDto;
+import hongik.newswhale.infrastructure.persistance.jpa.entity.KeywordEntity;
+import hongik.newswhale.infrastructure.persistance.jpa.entity.UserEntity;
+import hongik.newswhale.infrastructure.persistance.jpa.entity.UserKeywordEntity;
+import hongik.newswhale.infrastructure.persistance.jpa.repository.KeywordRepository;
+import hongik.newswhale.infrastructure.persistance.jpa.repository.UserKeywordRepository;
+import hongik.newswhale.infrastructure.persistance.jpa.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,26 +35,26 @@ public class UserKeywordService {
     public GetKeywordsDto getKeywords(String userId) {
 
         // 1. userId로부터 User find
-        Optional<User> optionalUser = userRepository.findById(Long.parseLong(userId));
-        User user = new User();
+        Optional<UserEntity> optionalUser = userRepository.findById(Long.parseLong(userId));
+        UserEntity userEntity = new UserEntity();
         if(optionalUser.isEmpty()) {
             throw new RuntimeException("사용자가 없습니다. 키워드를 조회할 수 없습니다.");
         } else {
-            user = optionalUser.get();
+            userEntity = optionalUser.get();
         }
 
         // 2. user로부터 UserKeyword 리스트 (사용자가 등록한 Keyword) find
-        List<UserKeyword> userKeywords = userKeywordRepository.findAllByUser(user);
+        List<UserKeywordEntity> userKeywordEntities = userKeywordRepository.findAllByUser(userEntity);
 
         // 3. UserKeyword 리스트로부터 등록된 키워드 이름 find
         List<String> userKeywordNames = new ArrayList<>();
-        for (UserKeyword userKeyword : userKeywords) {
-            userKeywordNames.add(userKeyword.getKeyword().getKeywordName());
+        for (UserKeywordEntity userKeywordEntity : userKeywordEntities) {
+            userKeywordNames.add(userKeywordEntity.getKeywordEntity().getKeywordName());
         }
 
         // 4. GetKeywordsDto return
         GetKeywordsDto getKeywordsDto = GetKeywordsDto.builder()
-                .count(Long.valueOf(userKeywords.size()))
+                .count(Long.valueOf(userKeywordEntities.size()))
                 .keywordName(userKeywordNames)
                 .build();
 
@@ -64,20 +65,20 @@ public class UserKeywordService {
     public PostKeywordDto postKeyword(PostKeywordDto postKeywordsDto) {
 
         // 1. userId로부터 User find
-        Optional<User> optionalUser = userRepository.findById(postKeywordsDto.getUserId());
-        User user = new User();
+        Optional<UserEntity> optionalUser = userRepository.findById(postKeywordsDto.getUserId());
+        UserEntity userEntity = new UserEntity();
         if(optionalUser.isEmpty()) {
             throw new RuntimeException("사용자가 없습니다. 키워드를 추가할 수 없습니다.");
         } else {
-            user = optionalUser.get();
+            userEntity = optionalUser.get();
         }
 
         // 2. 키워드 중복 확인
-        Optional<Keyword> optionalKeyword = keywordRepository.findByKeywordName(postKeywordsDto.getKeywordName());
-        Keyword keyword = new Keyword();
+        Optional<KeywordEntity> optionalKeyword = keywordRepository.findByKeywordName(postKeywordsDto.getKeywordName());
+        KeywordEntity keywordEntity = new KeywordEntity();
         // 2-1. 중복이 되어있지 않다면, 키워드를 새로 생성 후 KeywordRepository에 save
         if(optionalKeyword.isEmpty()) {
-            keyword = Keyword.builder()
+            keywordEntity = KeywordEntity.builder()
                     .keywordName(postKeywordsDto.getKeywordName())
                     .politicsCount(0L)
                     .economyCount(0L)
@@ -88,32 +89,32 @@ public class UserKeywordService {
                     .sportsCount(0L)
                     .itScienceCount(0L)
                     .build();
-            keywordRepository.save(keyword);
+            keywordRepository.save(keywordEntity);
         }
         // 2-2. 중복이 되어있다면 기존 키워드 find
         else {
-            keyword = optionalKeyword.get();
-            user.setPoliticsScore(user.getPoliticsScore() + keyword.getPoliticsCount());
-            user.setEconomyScore(user.getEconomyScore() + keyword.getEconomyCount());
-            user.setSocietyScore(user.getSocietyScore() + keyword.getSocietyCount());
-            user.setCultureScore(user.getCultureScore() + keyword.getCultureCount());
-            user.setInternationalScore(user.getInternationalScore() + keyword.getInternationalCount());
-            user.setLocalScore(user.getLocalScore() + keyword.getLocalCount());
-            user.setSportsScore(user.getSportsScore() + keyword.getSportsCount());
-            user.setItScienceScore(user.getItScienceScore() + keyword.getItScienceCount());
+            keywordEntity = optionalKeyword.get();
+            userEntity.setPoliticsScore(userEntity.getPoliticsScore() + keywordEntity.getPoliticsCount());
+            userEntity.setEconomyScore(userEntity.getEconomyScore() + keywordEntity.getEconomyCount());
+            userEntity.setSocietyScore(userEntity.getSocietyScore() + keywordEntity.getSocietyCount());
+            userEntity.setCultureScore(userEntity.getCultureScore() + keywordEntity.getCultureCount());
+            userEntity.setInternationalScore(userEntity.getInternationalScore() + keywordEntity.getInternationalCount());
+            userEntity.setLocalScore(userEntity.getLocalScore() + keywordEntity.getLocalCount());
+            userEntity.setSportsScore(userEntity.getSportsScore() + keywordEntity.getSportsCount());
+            userEntity.setItScienceScore(userEntity.getItScienceScore() + keywordEntity.getItScienceCount());
         }
 
         // 3. UserKeyword 중복 확인
-        Optional<UserKeyword> optionalUserKeyword = userKeywordRepository.findByUserAndKeyword(user, keyword);
+        Optional<UserKeywordEntity> optionalUserKeyword = userKeywordRepository.findByUserAndKeyword(userEntity, keywordEntity);
         if(optionalUserKeyword.isEmpty()) {
             // 3-1. userId와 keywordName 기반으로 userKeyword 엔티티 생성
-            UserKeyword userKeyword = UserKeyword.builder()
-                    .user(user)
-                    .keyword(keyword)
+            UserKeywordEntity userKeywordEntity = UserKeywordEntity.builder()
+                    .userEntity(userEntity)
+                    .keywordEntity(keywordEntity)
                     .build();
 
             // 3-2. UserKeywordRepository에 save
-            userKeywordRepository.save(userKeyword);
+            userKeywordRepository.save(userKeywordEntity);
             postKeywordsDto.setSuccess(true);
         } else {
             postKeywordsDto.setSuccess(false);
@@ -128,30 +129,30 @@ public class UserKeywordService {
         // 1. userId로부터 User find, keywordName으로부터 Keyword find
         var optionalUser = userRepository.findById(Long.parseLong(userId));
         var optionalKeyword = keywordRepository.findByKeywordName(keywordName);
-        User user = new User();
-        Keyword keyword = new Keyword();
+        UserEntity userEntity = new UserEntity();
+        KeywordEntity keywordEntity = new KeywordEntity();
         if(optionalUser.isEmpty()) {
             throw new RuntimeException("사용자가 없습니다. 키워드를 삭제할 수 없습니다.");
         } else {
-            user = optionalUser.get();
+            userEntity = optionalUser.get();
         }
         if(optionalKeyword.isEmpty()) {
             throw new RuntimeException("키워드가 없습니다. 키워드를 삭제할 수 없습니다.");
         } else {
-            keyword = optionalKeyword.get();
+            keywordEntity = optionalKeyword.get();
         }
 
         // 2. User와 Keyword로부터 UserKeyword find
-        var optionalUserKeyword = userKeywordRepository.findByUserAndKeyword(user, keyword);
-        UserKeyword userKeyword = new UserKeyword();
+        var optionalUserKeyword = userKeywordRepository.findByUserAndKeyword(userEntity, keywordEntity);
+        UserKeywordEntity userKeywordEntity = new UserKeywordEntity();
         if(optionalUserKeyword.isEmpty()) {
             throw new RuntimeException("사용자 등록 키워드가 없습니다. 키워드를 삭제할 수 없습니다.");
         } else {
-            userKeyword = optionalUserKeyword.get();
+            userKeywordEntity = optionalUserKeyword.get();
         }
 
         // 3. UserKeywordRepository로부터 delete
-        userKeywordRepository.delete(userKeyword);
+        userKeywordRepository.delete(userKeywordEntity);
 
         // 4. DeleteKeywordDto return
         DeleteKeywordDto deleteKeywordDto = DeleteKeywordDto.builder()
@@ -163,3 +164,4 @@ public class UserKeywordService {
     }
 
 }
+*/

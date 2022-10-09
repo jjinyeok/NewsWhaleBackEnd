@@ -1,7 +1,8 @@
-package demo3.demo3.service;
+/*
+package hongik.newswhale.application.service;
 
-import demo3.demo3.entity.User;
-import demo3.demo3.repository.UserRepository;
+import hongik.newswhale.infrastructure.persistance.jpa.entity.UserEntity;
+import hongik.newswhale.infrastructure.persistance.jpa.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,17 +31,18 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(username + " -> 데이터베이스에서 찾을 수 없습니다."));
     }
 
-    private org.springframework.security.core.userdetails.User createUser(String username, User user) throws RuntimeException {
-        if(!user.isActivated()) {
+    private org.springframework.security.core.userdetails.User createUser(String username, UserEntity userEntity) throws RuntimeException {
+        if(!userEntity.isActivated()) {
             throw new RuntimeException(username + " -> 활성화되어 있지 않습니다.");
         }
-        List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
+        List<GrantedAuthority> grantedAuthorities = userEntity.getAuthorities().stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
                 .collect(Collectors.toList());
         return new org.springframework.security.core.userdetails.User(
-                user.getNickname(),
-                user.getPassword(),
+                userEntity.getNickname(),
+                userEntity.getPassword(),
                 grantedAuthorities
         );
     }
 }
+*/

@@ -1,10 +1,11 @@
-package demo3.demo3.service;
+/*
+package hongik.newswhale.application.service;
 
-import demo3.demo3.dto.DuplicateCheckDto;
-import demo3.demo3.dto.SignUpDto;
-import demo3.demo3.entity.Authority;
-import demo3.demo3.entity.User;
-import demo3.demo3.repository.UserRepository;
+import hongik.newswhale.dto.DuplicateCheckDto;
+import hongik.newswhale.dto.SignUpDto;
+import hongik.newswhale.infrastructure.persistance.jpa.entity.AuthorityEntity;
+import hongik.newswhale.infrastructure.persistance.jpa.entity.UserEntity;
+import hongik.newswhale.infrastructure.persistance.jpa.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,9 +25,9 @@ public class AuthService {
 
     // 회원가입 서비스
     @Transactional
-    public User signUp(SignUpDto signUpDto) {
+    public UserEntity signUp(SignUpDto signUpDto) {
 
-        Authority authority = Authority.builder()
+        AuthorityEntity authorityEntity = AuthorityEntity.builder()
                 .authorityName("ROLE_USER")
                 .build();
 
@@ -54,13 +55,13 @@ public class AuthService {
             nickname = signUpDto.getNickname();
         }
 
-        User user = User.builder()
+        UserEntity userEntity = UserEntity.builder()
                 .username(signUpDto.getUsername())
                 .password(passwordEncoder.encode(signUpDto.getPassword()))
                 .nickname(nickname)
                 .email(signUpDto.getEmail())
                 .activated(true)
-                .authorities(Collections.singleton(authority))
+                .authorities(Collections.singleton(authorityEntity))
                 .politicsScore(0L)
                 .economyScore(0L)
                 .societyScore(0L)
@@ -71,13 +72,13 @@ public class AuthService {
                 .itScienceScore(0L)
                 .build();
 
-        return userRepository.save(user);
+        return userRepository.save(userEntity);
     }
 
     // 아이디 중복 체크 서비스
     public Boolean duplicateCheck(DuplicateCheckDto duplicateCheckDto) {
         System.out.println("Controller 통과");
-        Optional<User> registeredUser = userRepository.findByUsername(duplicateCheckDto.getUsername());
+        Optional<UserEntity> registeredUser = userRepository.findByUsername(duplicateCheckDto.getUsername());
         if(registeredUser.isEmpty()) {
             return Boolean.FALSE; // 아이디 중복이 없는 경우
         }
@@ -86,3 +87,4 @@ public class AuthService {
         }
     }
 }
+*/
