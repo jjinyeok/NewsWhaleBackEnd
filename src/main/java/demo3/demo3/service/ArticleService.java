@@ -172,5 +172,65 @@ public class ArticleService {
                 .build();
     }
 
+    public GetArticleDto getKeywordArticle(String keywordName) {
+
+        // 0. return 내부 값 생성
+        Long count = 0l;
+        List<ResponseArticle> responseArticleList = new ArrayList<>();
+
+        // 1. keyword(이름)로부터 Keyword find
+        Optional<Keyword> optionalKeyword = keywordRepository.findByKeywordName(keywordName);
+        Keyword keyword = new Keyword();
+        if(optionalKeyword.isEmpty()) {
+            // throw new RuntimeException("키워드가 없습니다. 키워드 기반 뉴스를 조회할 수 없습니다.");
+            List<ArticleKeyword> articleKeywordsByKeyword = new ArrayList<>();
+        } else {
+            keyword = optionalKeyword.get();
+
+            // 2. keyword로부터 ArticleKeyword 리스트 find
+            List<ArticleKeyword> articleKeywordsByKeyword = articleKeywordRepository.findAllByKeywordOrderByIdDesc(keyword);
+
+            // 3. articleKeywordsByKeyword 리스트로부터 ArticleKeyword를 하나씩 꺼내,
+            for (ArticleKeyword articleKeyword : articleKeywordsByKeyword) {
+
+                // 4. ArticleKeyword로부터 Article를 get
+                Article article = articleKeyword.getArticle();
+
+                // 5. ResponseArticle 객체 생성 (뉴스 제목, 뉴스 기자, 언론사, 뉴스 URL, 언론사 URL)
+                ResponseArticle responseArticle = ResponseArticle.builder()
+                        .articleId(article.getArticleId())
+                        .articleTitle(article.getArticleTitle())
+                        .articleReporter(article.getArticleReporter())
+                        .articleUrl(article.getArticleUrl())
+                        .articleMediaName(article.getArticleMediaName())
+                        .articleMediaUrl(article.getArticleMediaUrl())
+                        .articleMediaImageSrc(article.getArticleMediaImageSrc())
+                        .articleLastModifiedTime(article.getArticleLastModifiedDate())
+                        .build();
+
+                // 6. Article로부터 ArticleKeyword 리스트 find
+                List<ArticleKeyword> articleKeywordsByArticle = articleKeywordRepository.findAllByArticle(article);
+
+                // 7. ResponseArticle 객체 완성 (키워드1, 키워드2, 키워드3)
+                responseArticle.setKeyword1(articleKeywordsByArticle.get(0).getKeyword().getKeywordName());
+                responseArticle.setKeyword2(articleKeywordsByArticle.get(1).getKeyword().getKeywordName());
+                responseArticle.setKeyword3(articleKeywordsByArticle.get(2).getKeyword().getKeywordName());
+
+                // 8. return 내부 값 계산
+                responseArticleList.add(responseArticle);
+                responseArticleList.sort(new ResponseArticleComparator());
+                count++;
+                if (count == 301) {
+                    break;
+                }
+            }
+        }
+
+        return GetArticleDto.builder()
+                .count(count)
+                .articleList(responseArticleList)
+                .build();
+    }
+
 }
 
