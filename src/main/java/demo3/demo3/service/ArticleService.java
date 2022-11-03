@@ -196,30 +196,43 @@ public class ArticleService {
                 // 4. ArticleKeyword로부터 Article를 get
                 Article article = articleKeyword.getArticle();
 
-                // 5. ResponseArticle 객체 생성 (뉴스 제목, 뉴스 기자, 언론사, 뉴스 URL, 언론사 URL)
-                ResponseArticle responseArticle = ResponseArticle.builder()
-                        .articleId(article.getArticleId())
-                        .articleTitle(article.getArticleTitle())
-                        .articleReporter(article.getArticleReporter())
-                        .articleUrl(article.getArticleUrl())
-                        .articleMediaName(article.getArticleMediaName())
-                        .articleMediaUrl(article.getArticleMediaUrl())
-                        .articleMediaImageSrc(article.getArticleMediaImageSrc())
-                        .articleLastModifiedTime(article.getArticleLastModifiedDate())
-                        .build();
+                Boolean duplicateChecker = false;
+                for(ResponseArticle duplicateResponseArticle : responseArticleList) {
+                    if(article.getArticleId() == duplicateResponseArticle.getArticleId()) {
+                        duplicateChecker = true;
+                        break;
+                    }
+                }
+                if(duplicateChecker == false) {
 
-                // 6. Article로부터 ArticleKeyword 리스트 find
-                List<ArticleKeyword> articleKeywordsByArticle = articleKeywordRepository.findAllByArticle(article);
+                    // 5. ResponseArticle 객체 생성 (뉴스 제목, 뉴스 기자, 언론사, 뉴스 URL, 언론사 URL)
+                    ResponseArticle responseArticle = ResponseArticle.builder()
+                            .articleId(article.getArticleId())
+                            .articleTitle(article.getArticleTitle())
+                            .articleReporter(article.getArticleReporter())
+                            .articleUrl(article.getArticleUrl())
+                            .articleMediaName(article.getArticleMediaName())
+                            .articleMediaUrl(article.getArticleMediaUrl())
+                            .articleMediaImageSrc(article.getArticleMediaImageSrc())
+                            .articleLastModifiedTime(article.getArticleLastModifiedDate())
+                            .build();
 
-                // 7. ResponseArticle 객체 완성 (키워드1, 키워드2, 키워드3)
-                responseArticle.setKeyword1(articleKeywordsByArticle.get(0).getKeyword().getKeywordName());
-                responseArticle.setKeyword2(articleKeywordsByArticle.get(1).getKeyword().getKeywordName());
-                responseArticle.setKeyword3(articleKeywordsByArticle.get(2).getKeyword().getKeywordName());
+                    // 6. Article로부터 ArticleKeyword 리스트 find
+                    List<ArticleKeyword> articleKeywordsByArticle = articleKeywordRepository.findAllByArticle(article);
 
-                // 8. return 내부 값 계산
-                responseArticleList.add(responseArticle);
-                responseArticleList.sort(new ResponseArticleComparator());
-                count++;
+                    // 7. ResponseArticle 객체 완성 (키워드1, 키워드2, 키워드3)
+                    responseArticle.setKeyword1(articleKeywordsByArticle.get(0).getKeyword().getKeywordName());
+                    responseArticle.setKeyword2(articleKeywordsByArticle.get(1).getKeyword().getKeywordName());
+                    responseArticle.setKeyword3(articleKeywordsByArticle.get(2).getKeyword().getKeywordName());
+
+                    // 8. return 내부 값 계산
+                    responseArticleList.add(responseArticle);
+                    responseArticleList.sort(new ResponseArticleComparator());
+                    count++;
+                    if (count == 301) {
+                        break;
+                    }
+                }
                 if (count == 301) {
                     break;
                 }
